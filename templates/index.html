@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Safety Command Center</title>
+    <style>
+        body { background: #0b0f19; color: #fff; font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        #sidebar { width: 350px; background: #06090e; border-right: 1px solid #1a2233; padding: 20px; display: flex; flex-direction: column; }
+        #main { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+        .log-entry { font-family: 'Consolas', monospace; font-size: 13px; margin-bottom: 12px; border-bottom: 1px solid #1a2233; padding-bottom: 8px; line-height: 1.4; }
+        .log-time { color: #00ffcc; font-weight: bold; margin-right: 5px; }
+        .log-msg { color: #ccc; }
+        .log-msg.threat { color: #ff3366; font-weight: bold; }
+        .log-msg.email { color: #ffcc00; }
+        h2 { text-transform: uppercase; letter-spacing: 2px; color: #00ffcc; font-size: 14px; border-bottom: 1px solid #1a2233; padding-bottom: 10px; margin-top: 0; }
+        #log-container { overflow-y: auto; flex: 1; padding-right: 5px; }
+        img.feed { border: 2px solid #1a2233; border-radius: 8px; box-shadow: 0 0 30px rgba(0, 255, 204, 0.05); max-width: 95%; max-height: 80vh; object-fit: contain; }
+        .header-title { position: absolute; top: 20px; left: 30px; font-size: 20px; font-weight: bold; letter-spacing: 3px; color: #fff; }
+        .recording-badge { position: absolute; top: 20px; right: 30px; background: rgba(255, 0, 0, 0.2); border: 1px solid #ff0000; color: #ff0000; padding: 5px 15px; border-radius: 4px; font-weight: bold; letter-spacing: 2px; display: none; animation: pulse 1s infinite alternate; }
+        @keyframes pulse { from { opacity: 1; } to { opacity: 0.5; } }
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #06090e; }
+        ::-webkit-scrollbar-thumb { background: #1a2233; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Live Security Logs</h2>
+        <div id="log-container"></div>
+    </div>
+    <div id="main">
+        <div class="header-title">WOMEN SAFETY AI :: LIVE FEED</div>
+        <div class="recording-badge" id="rec-badge">REC &#9679;</div>
+        <img class="feed" src="/video_feed" />
+    </div>
+    <script>
+        setInterval(() => {
+            fetch('/logs')
+                .then(r => r.json())
+                .then(data => {
+                    let html = '';
+                    let isRecording = false;
+                    data.forEach(log => {
+                        let msgClass = 'log-msg';
+                        let text = log.msg;
+                        if (text.includes("THREAT") || text.includes("Suspicious force") || text.includes("Recording")) {
+                            msgClass += ' threat';
+                            isRecording = true;
+                        } else if (text.includes("Email") || text.includes("normalized")) {
+                            msgClass += ' email';
+                        }
+                        html += `<div class="log-entry"><span class="log-time">[${log.time}]</span><span class="${msgClass}">${text}</span></div>`;
+                    });
+                    document.getElementById('log-container').innerHTML = html;
+                    document.getElementById('rec-badge').style.display = isRecording ? 'block' : 'none';
+                });
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific - exclude large model files and evidence
+*.caffemodel
+*.pb
+*.pbtxt
+gender_net.caffemodel
+gender_deploy.prototxt
+opencv_face_detector_uint8.pb
+opencv_face_detector.pbtxt
+age_net.caffemodel
+age_deploy.prototxt
+haarcascade_frontalface_default.xml
+
+# Evidence files (large video/image files)
+evidence/
+evidence_png/
+*.avi
+*.mp4
+*.mov
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Logs and temporary files
+*.log
+temp_*
+*.tmp
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Email credentials (security)
+# Note: Consider using environment variables for sensitive data
